@@ -1,0 +1,193 @@
+/* Variables de couleurs */
+:root {
+  --primary-violet: #6d28d9;
+  --secondary-violet: #8b5cf6;
+  --light-violet: #c4b5fd;
+  --ultra-light-violet: #ede9fe;
+  --dark-violet: #5b21b6;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --white: #ffffff;
+  --success: #10b981;
+  --warning: #f59e0b;
+}
+
+/* Styles généraux améliorés */
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: var(--text-dark);
+  background-color: #f8fafc;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* Cartes modernes */
+.card-modern {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: none;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-modern:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.card-header-modern {
+  background: linear-gradient(135deg, var(--primary-violet), var(--secondary-violet));
+  color: var(--white);
+  padding: 1.25rem 1.5rem;
+  border-bottom: none;
+}
+
+/* Boutons améliorés */
+.btn-violet {
+  background: linear-gradient(135deg, var(--primary-violet), var(--secondary-violet));
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(109, 40, 217, 0.2);
+}
+
+.btn-violet:hover {
+  background: linear-gradient(135deg, var(--dark-violet), var(--primary-violet));
+  color: var(--white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(109, 40, 217, 0.3);
+}
+
+.btn-sm-violet {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* Tableaux améliorés */
+.table-modern {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.table-modern thead {
+  background: linear-gradient(135deg, var(--primary-violet), var(--secondary-violet));
+  color: var(--white);
+}
+
+.table-modern thead th {
+  border: none;
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.table-modern tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table-modern tbody tr:nth-child(even) {
+  background-color: var(--ultra-light-violet);
+}
+
+.table-modern tbody tr:hover {
+  background-color: var(--light-violet);
+  transform: scale(1.01);
+}
+
+.table-modern tbody td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+/* Badges améliorés */
+.badge {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.badge-success {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+.badge-warning {
+  background-color: var(--warning);
+  color: var(--white);
+}
+
+/* Modal amélioré */
+.modal-violet .modal-header {
+  background: linear-gradient(135deg, var(--primary-violet), var(--secondary-violet));
+  color: var(--white);
+  border-bottom: none;
+}
+
+.modal-violet .modal-header .btn-close {
+  filter: invert(1);
+}
+
+.modal-violet .modal-footer {
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Titres améliorés */
+.h2-modern {
+  color: var(--primary-violet);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.h2-modern::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, var(--primary-violet), var(--secondary-violet));
+  border-radius: 2px;
+}
+
+.h4-modern {
+  color: var(--dark-violet);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .table-modern {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .card-modern {
+    border-radius: 8px;
+  }
+  
+  .btn-violet {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .h2-modern {
+    font-size: 1.5rem;
+  }
+}
