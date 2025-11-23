@@ -7,7 +7,7 @@
             <h2 class="mb-4">Tableau de bord Administrateur</h2>
         </div>
     </div>
-    
+
     <!-- Cartes de statistiques -->
     <div class="row mb-4">
         <div class="col-xl-3 col-md-6 mb-4">
@@ -89,7 +89,7 @@
                             </button>
                         </div>
                     </form>
-                    
+
                     <h6 class="border-bottom pb-2 mb-3">Salles existantes</h6>
                     <div class="salles-list">
                         @foreach($salles as $salle)
@@ -107,7 +107,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Nommer un délégué -->
         <div class="col-xl-6 col-lg-12 mb-4">
             <div class="card h-100">
@@ -123,7 +123,7 @@
                                 <option value="">Sélectionner un étudiant</option>
                                 @foreach(\App\Models\User::where('role', 'etudiant')->get() as $etudiant)
                                 <option value="{{ $etudiant->id }}" data-salle="{{ $etudiant->salle_id }}">
-                                    {{ $etudiant->name }} - {{ $etudiant->email }} 
+                                    {{ $etudiant->name }} - {{ $etudiant->email }}
                                     @if($etudiant->salle)
                                         ({{ $etudiant->salle->nom }})
                                     @endif
@@ -144,6 +144,14 @@
                             <i class="fas fa-user-check me-1"></i>Nommer délégué
                         </button>
                     </form>
+                    <div class="my-4 overflow-scroll max-h-4">
+                        <h1>Liste des delegues</h1>
+                        <ol>
+                            @foreach ($delegues as $delegue)
+                                <li>{{ $delegue->name }} - {{ $delegue->salle->nom }}</li>
+                            @endforeach
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
@@ -161,10 +169,10 @@
                         <a href="{{ route('admin.liste-paiements') }}" class="btn btn-primary">
                             <i class="fas fa-list me-1"></i>Voir tous les paiements
                         </a>
-                        
+
                         @foreach($salles as $salle)
                         <a href="{{ route('admin.liste-paiements-salle', $salle->id) }}" class="btn btn-outline-primary">
-                            {{ $salle->nom }} 
+                            {{ $salle->nom }}
                             <span class="badge bg-primary ms-1">{{ $salle->paiements_count }}</span>
                         </a>
                         @endforeach
@@ -214,7 +222,7 @@
                     <a href="{{ route('admin.telecharger-liste-paiements') }}" class="btn btn-success">
                         <i class="fas fa-file-pdf me-2"></i>Télécharger liste complète
                     </a>
-                    
+
                     @foreach($salles as $salle)
                     <a href="{{ route('admin.telecharger-liste-paiements-salle', $salle->id) }}" class="btn btn-outline-success">
                         <i class="fas fa-download me-1"></i>{{ $salle->nom }}
@@ -236,70 +244,70 @@
         border-radius: 15px;
         transition: transform 0.3s ease;
     }
-    
+
     .stat-card:hover {
         transform: translateY(-5px);
     }
-    
+
     .stat-icon {
         font-size: 2.5rem;
         opacity: 0.7;
     }
-    
+
     .salle-item {
         transition: all 0.3s ease;
     }
-    
+
     .salle-item:hover {
         background-color: #f8f9fa;
         transform: translateX(5px);
     }
-    
+
     .salle-stat-card {
         border: none;
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
     }
-    
+
     .salle-stat-card:hover {
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         transform: translateY(-3px);
     }
-    
+
     .stat-number {
         font-size: 1.8rem;
         font-weight: bold;
         color: #2c3e50;
     }
-    
+
     .select2-etudiant {
         width: 100% !important;
     }
-    
+
     @media (max-width: 768px) {
         .card-body {
             padding: 1rem;
         }
-        
+
         .btn {
             margin-bottom: 0.5rem;
         }
-        
+
         .salle-stat-card {
             margin-bottom: 1rem;
         }
     }
-    
+
     @media (max-width: 576px) {
         .container-fluid {
             padding: 0 10px;
         }
-        
+
         .stat-card .card-body {
             padding: 1rem;
         }
-        
+
         .stat-icon {
             font-size: 2rem;
         }
@@ -328,7 +336,7 @@
         $('.select2-etudiant').on('change', function() {
             var selectedOption = $(this).find('option:selected');
             var salleId = selectedOption.data('salle');
-            
+
             if (salleId) {
                 $('#salleSelect').val(salleId).trigger('change');
             }

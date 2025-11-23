@@ -19,7 +19,7 @@ Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, '
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    
+
     Route::prefix('etudiant')->group(function () {
         Route::get('/dashboard', [EtudiantController::class, 'dashboard'])->name('etudiant.dashboard');
         Route::post('/initier-paiement', [EtudiantController::class, 'initierPaiement'])->name('etudiant.initier-paiement');
@@ -40,9 +40,9 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('admin')->group(function () {
-    // ... routes existantes ...
-    
-    Route::get('/telecharger-liste-paiements', [AdminController::class, 'telechargerListePaiements'])->name('admin.telecharger-liste-paiements');
-    Route::get('/telecharger-liste-paiements/{salle}', [AdminController::class, 'telechargerListePaiements'])->name('admin.telecharger-liste-paiements-salle');
-});
+        // ... routes existantes ...
+
+        Route::get('/telecharger-liste-paiements', [AdminController::class, 'telechargerListePaiements'])->name('admin.telecharger-liste-paiements');
+        Route::get('/telecharger-liste-paiements/{salle}', [AdminController::class, 'telechargerListePaiements'])->name('admin.telecharger-liste-paiements-salle');
+    });
 });

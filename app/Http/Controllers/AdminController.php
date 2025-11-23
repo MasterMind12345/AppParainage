@@ -11,6 +11,13 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+        if (!auth()->user()->isAdmin()) {
+            if (!auth()->user()->is_delegue) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/delegue/dashboard')->send();
+            }
+        }
         $totalPaiements = Paiement::where('status', 'valide')->sum('montant');
         $paiementsJournaliers = Paiement::where('status', 'valide')
             ->whereDate('valide_le', today())
@@ -26,19 +33,28 @@ class AdminController extends Controller
             $query->where('status', 'valide');
         }])->get();
 
+        $delegues = User::where('is_delegue', 1)->get();
         return view('admin.dashboard', compact(
             'totalPaiements',
             'paiementsJournaliers',
             'paiementsHebdomadaires',
             'paiementsMensuels',
-            'salles'
+            'salles',
+            'delegues'
         ));
     }
 
     public function listePaiements($salleId = null)
     {
+        if (!auth()->user()->isAdmin()) {
+            if (!auth()->user()->is_delegue) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/delegue/dashboard')->send();
+            }
+        }
         $query = Paiement::where('status', 'valide')->with(['etudiant', 'salle', 'delegue']);
-        
+
         if ($salleId) {
             $query->where('salle_id', $salleId);
         }
@@ -51,22 +67,36 @@ class AdminController extends Controller
 
     public function creerSalle(Request $request)
     {
+        if (!auth()->user()->isAdmin()) {
+            if (!auth()->user()->is_delegue) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/delegue/dashboard')->send();
+            }
+        }
         $request->validate(['nom' => 'required|string|unique:salles']);
-        
+
         Salle::create($request->only('nom'));
-        
+
         return redirect()->back()->with('success', 'Salle créée avec succès.');
     }
 
     public function nommerDelegue(Request $request)
     {
+        if (!auth()->user()->isAdmin()) {
+            if (!auth()->user()->is_delegue) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/delegue/dashboard')->send();
+            }
+        }
         $request->validate([
             'etudiant_id' => 'required|exists:users,id',
             'salle_id' => 'required|exists:salles,id'
         ]);
 
         User::where('salle_id', $request->salle_id)->update(['is_delegue' => false]);
-        
+
         $etudiant = User::find($request->etudiant_id);
         $etudiant->update([
             'salle_id' => $request->salle_id,
@@ -75,25 +105,32 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Délégué nommé avec succès.');
     }
-public function telechargerListePaiements($salleId = null)
-{
-    $query = Paiement::where('status', 'valide')
-        ->with(['etudiant', 'salle', 'delegue']);
-    
-    if ($salleId) {
-        $query->where('salle_id', $salleId);
-        $salle = Salle::findOrFail($salleId);
-        $filename = 'liste-paiements-' . $salle->nom . '.pdf';
-    } else {
-        $filename = 'liste-paiements-tous.pdf';
+    public function telechargerListePaiements($salleId = null)
+    {
+        if (!auth()->user()->isAdmin()) {
+            if (!auth()->user()->is_delegue) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/delegue/dashboard')->send();
+            }
+        }
+        $query = Paiement::where('status', 'valide')
+            ->with(['etudiant', 'salle', 'delegue']);
+
+        if ($salleId) {
+            $query->where('salle_id', $salleId);
+            $salle = Salle::findOrFail($salleId);
+            $filename = 'liste-paiements-' . $salle->nom . '.pdf';
+        } else {
+            $filename = 'liste-paiements-tous.pdf';
+        }
+
+        $paiements = $query->orderBy('created_at', 'desc')->get();
+        $salles = Salle::all();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.pdf.liste-paiements', compact('paiements', 'salles', 'salleId'));
+
+        return $pdf->download($filename);
     }
 
-    $paiements = $query->orderBy('created_at', 'desc')->get();
-    $salles = Salle::all();
-
-    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.pdf.liste-paiements', compact('paiements', 'salles', 'salleId'));
-    
-    return $pdf->download($filename);
-}
-    
 }

@@ -247,32 +247,32 @@
     overflow-x: auto;
     font-size: 0.875rem;
   }
-  
+
   .card-modern {
     border-radius: 12px;
     margin-bottom: 1rem;
   }
-  
+
   .btn-violet {
     width: 100%;
     margin-bottom: 0.5rem;
   }
-  
+
   .h2-modern {
     font-size: 1.75rem;
     text-align: center;
   }
-  
+
   .h2-modern::after {
     left: 50%;
     transform: translateX(-50%);
   }
-  
+
   .stats-card {
     margin-bottom: 1rem;
     padding: 1.25rem;
   }
-  
+
   .stats-number {
     font-size: 2rem;
   }
@@ -282,21 +282,21 @@
   .card-header-modern {
     padding: 1.25rem 1.5rem;
   }
-  
+
   .h2-modern {
     font-size: 1.5rem;
   }
-  
+
   .table-modern thead th,
   .table-modern tbody td {
     padding: 1rem;
     white-space: nowrap;
   }
-  
+
   .empty-state {
     padding: 3rem 1rem;
   }
-  
+
   .empty-state i {
     font-size: 4rem;
   }
@@ -433,25 +433,91 @@
             </div>
         </div>
 
-        <!-- Statistiques supplémentaires -->
-        @if($paiements->isNotEmpty())
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card-modern">
+                    <div class="card-header-modern">
+                        <h4 class="mb-0"><i class="fas fa-clock me-2"></i>Demandes confirmees</h4>
+                    </div>
+                    <div class="card-body">
+                        @if($paiementsDone->isEmpty())
+                            <div class="empty-state">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <h4>Aucune demande en attente</h4>
+                                <p class="text-muted">Toutes les demandes ont été traitées avec succès</p>
+                            </div>
+                        @else
+                        <div class="table-responsive">
+                            <table class="table table-modern mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Étudiant</th>
+                                        <th>Montant</th>
+                                        <th>Contact</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($paiementsDone as $paiement)
+                                    <tr class="{{ $paiement->created_at->diffInHours(now()) > 24 ? 'priority-high' : 'priority-medium' }}">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="user-avatar">
+                                                    {{ substr($paiement->etudiant->name, 0, 1) }}
+                                                </div>
+                                                <div>
+                                                    <strong>{{ $paiement->etudiant->name }}</strong>
+                                                    {{-- @if($paiement->created_at->diffInHours(now()) > 24)
+                                                    <br><span class="urgent-badge">URGENT</span>
+                                                    @endif --}}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="fw-bold text-primary">{{ number_format($paiement->montant, 0, ',', ' ') }} FCFA</td>
+                                        <td>
+                                            <i class="fas fa-phone me-1 text-muted"></i>
+                                            {{ $paiement->telephone }}
+                                        </td>
+                                        <td>
+                                            <strong>{{ $paiement->created_at->format('d/m/Y') }}</strong>
+                                            <br>
+                                            <small class="text-muted">{{ $paiement->created_at->format('H:i') }}</small>
+                                            <br>
+                                            <small class="text-muted">
+                                                Il y a {{ $paiement->created_at->diffForHumans() }}
+                                            </small>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         Statistiques supplémentaires
+        @if($allpaiements->isNotEmpty())
         <div class="row mt-4">
             <div class="col-md-4">
                 <div class="stats-card" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
-                    <div class="stats-number">{{ $paiements->where('created_at', '>=', now()->subHours(24))->count() }}</div>
+                    <div class="stats-number">{{ $allpaiements->where('created_at', '>=', now()->subHours(24))->count() }}</div>
                     <div class="stats-label">Dernières 24h</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="stats-card" style="background: linear-gradient(135deg, #ef4444, #f87171);">
-                    <div class="stats-number">{{ $paiements->where('created_at', '>=', now()->subHours(24))->count() }}</div>
-                    <div class="stats-label">Urgents</div>
+                    <div class="stats-number">{{ $allpaiements->where('status', 'attente de validation')->count() }}</div>
+                    <div class="stats-label">Paiements en attente</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="stats-card" style="background: linear-gradient(135deg, #10b981, #34d399);">
-                    <div class="stats-number">{{ $paiements->sum('montant') }} F</div>
-                    <div class="stats-label">Total à valider</div>
+                    <div class="stats-number">{{ $allpaiements->sum('montant') }} F</div>
+                    <div class="stats-label">Total encaissé</div>
                 </div>
             </div>
         </div>

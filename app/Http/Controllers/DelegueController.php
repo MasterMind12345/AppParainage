@@ -11,17 +11,39 @@ class DelegueController extends Controller
 {
     public function dashboard()
     {
+        if (!auth()->user()->is_delegue) {
+            if (!auth()->user()->isAdmin()) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/admin/dashboard')->send();
+            }
+        }
+
         $delegue = Auth::user();
         $paiements = Paiement::where('salle_id', $delegue->salle_id)
             ->where('status', 'attente de validation')
             ->with('etudiant')
             ->get();
-            
-        return view('delegue.dashboard', compact('paiements'));
+
+        $paiementsDone = Paiement::where('salle_id', $delegue->salle_id)
+            ->where('status', 'valide')
+            ->with('etudiant')
+            ->get();
+
+        $allpaiements = $paiements->merge($paiementsDone);
+
+        return view('delegue.dashboard', compact('paiements', 'paiementsDone', 'allpaiements'));
     }
 
     public function validerPaiement(Request $request, $id)
     {
+        if (!auth()->user()->is_delegue) {
+            if (!auth()->user()->isAdmin()) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/admin/dashboard')->send();
+            }
+        }
         $paiement = Paiement::where('salle_id', Auth::user()->salle_id)
             ->where('status', 'attente de validation')
             ->findOrFail($id);

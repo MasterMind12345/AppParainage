@@ -234,27 +234,27 @@
     overflow-x: auto;
     font-size: 0.875rem;
   }
-  
+
   .card-modern {
     border-radius: 12px;
     margin-bottom: 1rem;
   }
-  
+
   .btn-violet {
     width: 100%;
     margin-bottom: 1rem;
   }
-  
+
   .h2-modern {
     font-size: 1.75rem;
     text-align: center;
   }
-  
+
   .h2-modern::after {
     left: 50%;
     transform: translateX(-50%);
   }
-  
+
   .table-modern thead th,
   .table-modern tbody td {
     padding: 1rem;
@@ -265,11 +265,11 @@
   .modal-violet .modal-body {
     padding: 1.5rem;
   }
-  
+
   .card-header-modern {
     padding: 1.25rem 1.5rem;
   }
-  
+
   .h2-modern {
     font-size: 1.5rem;
   }
@@ -314,11 +314,11 @@
         <div class="d-flex justify-content-between align-items-center mb-5">
             <h2 class="h2-modern">Tableau de bord Étudiant</h2>
             <button class="btn btn-violet" data-bs-toggle="modal" data-bs-target="#paiementModal">
-                <i class="fas fa-file-invoice-dollar me-2"></i>Initier Certification Paiement
+                <i class="fas fa-plus me-2"></i>Initier Paiement
             </button>
         </div>
 
-        <div class="row mb-4">
+        {{-- <div class="row mb-4">
             <div class="col-md-3 col-6">
                 <div class="stats-card text-center">
                     <div class="stats-number">{{ $paiements->count() }}</div>
@@ -343,7 +343,7 @@
                     <div class="stats-label">Total Versé</div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row">
             <div class="col-12">
@@ -435,7 +435,10 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Numéro de téléphone</label>
-                            <input type="text" class="form-control" name="telephone" required placeholder="Ex: 77 123 45 67">
+                            <input type="text" class="form-control" required name="telephone" placeholder="Ex: 77 123 45 67">
+                            @error('telephone')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Salle de classe</label>

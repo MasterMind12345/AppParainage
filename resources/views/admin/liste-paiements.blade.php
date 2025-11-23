@@ -28,12 +28,12 @@
                         <div class="col-md-8">
                             <h5 class="mb-3">Filtrer par salle :</h5>
                             <div class="d-flex flex-wrap gap-2">
-                                <a href="{{ route('admin.liste-paiements') }}" 
+                                <a href="{{ route('admin.liste-paiements') }}"
                                    class="btn {{ !request()->route('salle') ? 'btn-primary' : 'btn-outline-primary' }}">
                                     Toutes les salles
                                 </a>
                                 @foreach($salles as $salle)
-                                <a href="{{ route('admin.liste-paiements-salle', $salle->id) }}" 
+                                <a href="{{ route('admin.liste-paiements-salle', $salle->id) }}"
                                    class="btn {{ request()->route('salle') == $salle->id ? 'btn-primary' : 'btn-outline-primary' }}">
                                     {{ $salle->nom }}
                                     <span class="badge bg-light text-dark ms-1">
@@ -43,14 +43,39 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="text-center p-3 bg-light rounded">
-                                <h4 class="text-primary mb-1">{{ $paiements->count() }}</h4>
-                                <small class="text-muted">Paiements validés</small>
-                                <br>
-                                <strong class="text-success">
-                                    {{ number_format($paiements->sum('montant'), 0, ',', ' ') }} FCFA
-                                </strong>
+                        <div class="col-md-4 ">
+                            <h5 class="mb-3">Statistiques</h5>
+
+
+
+                            <div class="d-flex">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h4 class="text-primary mb-1">{{ $paiements->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count() }}</h4>
+                                    <small class="text-muted">Paiements du jour valides</small>
+                                    <br>
+                                    <strong class="text-success">
+                                        {{ number_format($paiements->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->sum('montant'), 0, ',', ' ') }} FCFA
+                                    </strong>
+                                </div>
+
+
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h4 class="text-primary mb-1">{{ $paiements->where('created_at', '>=', now()->startOfWeek())->where('created_at', '<=', now()->endOfWeek())->count() }}</h4>
+                                    <small class="text-muted">Paiements de la semaine validés</small>
+                                    <br>
+                                    <strong class="text-success">
+                                        {{ number_format($paiements->where('created_at', '>=', now()->startOfWeek())->where('created_at', '<=', now()->endOfWeek())->sum('montant'), 0, ',', ' ') }} FCFA
+                                    </strong>
+                                </div>
+
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h4 class="text-primary mb-1">{{ $paiements->count() }}</h4>
+                                    <small class="text-muted">Paiements validés</small>
+                                    <br>
+                                    <strong class="text-success">
+                                        {{ number_format($paiements->sum('montant'), 0, ',', ' ') }} FCFA
+                                    </strong>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -128,8 +153,8 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-info" 
-                                                data-bs-toggle="tooltip" 
+                                        <button class="btn btn-sm btn-outline-info"
+                                                data-bs-toggle="tooltip"
                                                 title="Voir les détails"
                                                 onclick="showPaiementDetails({{ $paiement }})">
                                             <i class="fas fa-eye"></i>
@@ -220,13 +245,13 @@
     .table-responsive {
         font-size: 0.875rem;
     }
-    
+
     .avatar-circle {
         width: 30px;
         height: 30px;
         font-size: 12px;
     }
-    
+
     .btn-group .btn {
         font-size: 0.75rem;
         padding: 0.25rem 0.5rem;
@@ -255,7 +280,7 @@ function showPaiementDetails(paiement) {
             </div>
         </div>
     `;
-    
+
     document.getElementById('paiementDetails').innerHTML = detailsHtml;
     new bootstrap.Modal(document.getElementById('paiementModal')).show();
 }
@@ -264,7 +289,7 @@ function showPaiementDetails(paiement) {
 document.getElementById('searchInput').addEventListener('input', function(e) {
     const searchTerm = e.target.value.toLowerCase();
     const rows = document.querySelectorAll('#paiementsTable tbody tr');
-    
+
     rows.forEach(row => {
         const text = row.textContent.toLowerCase();
         row.style.display = text.includes(searchTerm) ? '' : 'none';

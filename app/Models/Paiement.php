@@ -10,7 +10,7 @@ class Paiement extends Model
     use HasFactory;
 
     protected $fillable = [
-        'etudiant_id', 'salle_id', 'montant', 'telephone', 'status', 'valide_le', 'valide_par'
+        'name', 'etudiant_id', 'salle_id', 'montant', 'telephone', 'status', 'valide_le', 'valide_par', 'code', 'has_enter', 'has_eat', 'enter_by', 'eat_by'
     ];
 
     protected $casts = [
