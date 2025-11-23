@@ -18,8 +18,15 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
+        User::create([
+            'name' => 'clubgi',
+            'email' => 'iutclubgi@gmail.com',
+            'password' => Hash::make('club-GI#2025'),
+            'role' => 'admin'
+        ]);
+
         $salles = ['E301', 'E302', 'E202', 'A31', 'A12'];
-        
+
         foreach ($salles as $salle) {
             Salle::create(['nom' => $salle]);
         }
