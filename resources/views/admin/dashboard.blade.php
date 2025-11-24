@@ -93,15 +93,18 @@
                     <h6 class="border-bottom pb-2 mb-3">Salles existantes</h6>
                     <div class="salles-list">
                         @foreach($salles as $salle)
-                        <div class="salle-item d-flex justify-content-between align-items-center p-2 border rounded mb-2">
-                            <div>
-                                <strong>{{ $salle->nom }}</strong>
-                                <small class="text-muted d-block">{{ $salle->paiements_count }} paiements validés</small>
+                            <div class="salle-item d-flex justify-content-between align-items-center p-2 border rounded mb-2">
+                                <div>
+                                    <strong>{{ $salle->nom }} - @foreach ($salle->delegues as $delegue) {{ $delegue->name }} @if (!$loop->last), @endif @endforeach</strong>
+                                    <small class="text-muted d-block">{{ $salle->paiements_count }} paiements validés</small>
+                                    <small class="text-muted d-block">{{ $salle->paiements->sum('montant') }} FCFA</small>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-primary" data-salle-id="{{ $salle->id }}" data-toggle="modal" data-target="#editSalleModal"><i class="fas fa-edit me-1"></i>Modifier</button>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer cette salle ?')) { window.location='{{ route('admin.supprimer-salle', $salle->id) }}'; }"><i class="fas fa-trash me-1"></i>Supprimer</button>
+                                <a href="{{ route('admin.liste-paiements-salle', $salle->id) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-list me-1"></i>Voir
+                                </a>
                             </div>
-                            <a href="{{ route('admin.liste-paiements-salle', $salle->id) }}" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-list me-1"></i>Voir
-                            </a>
-                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -144,13 +147,28 @@
                             <i class="fas fa-user-check me-1"></i>Nommer délégué
                         </button>
                     </form>
-                    <div class="my-4 overflow-scroll max-h-4">
+                    <div class="my-4 overflow-scroll ">
                         <h1>Liste des delegues</h1>
-                        <ol>
-                            @foreach ($delegues as $delegue)
-                                <li>{{ $delegue->name }} - {{ $delegue->salle->nom }}</li>
-                            @endforeach
-                        </ol>
+                        <table style="width:100">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50%">Nom</th>
+                                    <th style="width: 25%">Salle</th>
+                                    <th style="width: 25%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($delegues as $delegue)
+                                    <tr>
+                                        <td>{{ $delegue->name }}</td>
+                                        <td>{{ $delegue->salle->nom }} </td>
+                                        <td>
+                                            <button class="btn btn-danger" onclick="removeDelegue({{ $delegue->id }})">Enlever delegue</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -237,6 +255,29 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="editSalleModal" tabindex="-1" aria-labelledby="editSalleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSalleModalLabel">Modifier la salle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('admin.creer-salle') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="salleName" class="form-label">Nom de la salle</label>
+                            <input type="text" class="form-control" id="salleName" name="nom" required>
+                        </div>
+                        <input type="hidden" id="salleId" name="salle_id">
+                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <style>
     .stat-card {
@@ -349,6 +390,29 @@
             }, 300);
         });
     });
+
+    function removeDelegue(delegueId) {
+        if (confirm('Êtes-vous sûr de vouloir enlever ce délégué ?')) {
+            fetch(`/admin/enlever-delegue/${delegueId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Erreur lors de la suppression du délégué.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la suppression du délégué.');
+            });
+        }
+    }
 </script>
 
 <!-- Remplacez votre-fontawesome-kit.js par votre vrai kit FontAwesome -->

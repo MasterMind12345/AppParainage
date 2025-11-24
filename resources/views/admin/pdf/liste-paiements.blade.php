@@ -74,7 +74,7 @@
             color: white;
         }
         .statistics {
-            display: grid;
+            /* display: table; */
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-bottom: 15px;
@@ -84,6 +84,7 @@
             padding: 10px;
             border-radius: 5px;
             text-align: center;
+            display: inline-block
         }
         .stat-number {
             font-size: 16px;
@@ -149,8 +150,8 @@
             <tr>
                 <th>#</th>
                 <th>Étudiant</th>
-                <th>Email</th>
-                <th>Salle</th>
+                <th>Code paiement</th>
+                <th>Telephone</th>
                 <th>Montant</th>
                 <th>Téléphone</th>
                 <th>Date Validation</th>
@@ -161,8 +162,8 @@
             @foreach($paiements as $index => $paiement)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $paiement->etudiant->name }}</td>
-                <td>{{ $paiement->etudiant->email }}</td>
+                <td>{{ $paiement->name }}</td>
+                <td>{{ $paiement->code }}</td>
                 <td>
                     <span class="badge badge-info">{{ $paiement->salle->nom }}</span>
                 </td>

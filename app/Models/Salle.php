@@ -15,6 +15,11 @@ class Salle extends Model
         return $this->hasMany(User::class);
     }
 
+    public function delegues()
+    {
+        return $this->hasMany(User::class, 'salle_id')->where('is_delegue', true);
+    }
+
     public function paiements()
     {
         return $this->hasMany(Paiement::class);

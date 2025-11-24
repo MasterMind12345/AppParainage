@@ -37,6 +37,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/liste-paiements/{salle}', [AdminController::class, 'listePaiements'])->name('admin.liste-paiements-salle');
         Route::post('/creer-salle', [AdminController::class, 'creerSalle'])->name('admin.creer-salle');
         Route::post('/nommer-delegue', [AdminController::class, 'nommerDelegue'])->name('admin.nommer-delegue');
+        Route::post('/enlever-delegue/{id}', [AdminController::class, 'enleverDelegue'])->name('admin.enlever-delegue');
+        Route::post('/modifier-salle/{id}', [AdminController::class, 'modifierSalle'])->name('admin.modifier-salle');
+        Route::get('/supprimer-salle/{id}', [AdminController::class, 'supprimerSalle'])->name('admin.supprimer-salle');
     });
 
     Route::prefix('admin')->group(function () {

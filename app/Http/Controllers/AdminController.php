@@ -81,6 +81,34 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Salle créée avec succès.');
     }
 
+    public function modifierSalle(Request $request, $id)
+    {
+        if (!auth()->user()->isAdmin()) {
+            if (!auth()->user()->is_delegue) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/delegue/dashboard')->send();
+            }
+        }
+        $request->validate(['nom' => 'required|string']);
+        $salle = Salle::findOrFail($id);
+        $salle->update($request->only('nom'));
+        return redirect()->back()->with('success', 'Salle modifiée avec succès.');
+    }
+    public function supprimerSalle($id)
+    {
+        if (!auth()->user()->isAdmin()) {
+            if (!auth()->user()->is_delegue) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/delegue/dashboard')->send();
+            }
+        }
+        $salle = Salle::findOrFail($id);
+        $salle->delete();
+        return redirect()->back()->with('success', 'Salle supprimée avec succès.');
+    }
+
     public function nommerDelegue(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -131,6 +159,22 @@ class AdminController extends Controller
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.pdf.liste-paiements', compact('paiements', 'salles', 'salleId'));
 
         return $pdf->download($filename);
+    }
+
+    public function enleverDelegue($id)
+    {
+        if (!auth()->user()->isAdmin()) {
+            if (!auth()->user()->is_delegue) {
+                redirect('/etudiant/dashboard')->send();
+            }else{
+                redirect('/delegue/dashboard')->send();
+            }
+        }
+
+        $delegue = User::findOrFail($id);
+        $delegue->update(['is_delegue' => false, 'salle_id' => null]);
+
+        return redirect()->back()->with('success', 'Délégué enlevé avec succès.');
     }
 
 }

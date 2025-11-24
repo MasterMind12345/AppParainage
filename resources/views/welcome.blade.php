@@ -8,11 +8,11 @@
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-        
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-        
+
         <style>
             body {
                 font-family: 'Instrument Sans', sans-serif;
@@ -65,7 +65,7 @@
                             <h1 class="display-4 fw-bold">Gestion Paiement</h1>
                             <p class="lead mb-0">Système de gestion des paiements de parrainage</p>
                         </div>
-                        
+
                         <div class="p-5">
                             <div class="row mb-5">
                                 <div class="col-md-4 text-center mb-4">
@@ -147,7 +147,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="text-center mt-4">
                         <p class="text-white mb-0">
                             &copy; {{ date('Y') }} Gestion Paiement - Système de gestion des paiements de parrainage
