@@ -151,7 +151,7 @@
 
                     <div class="text-center mt-4">
                         <p class="text-white mb-0">
-                            &copy; {{ date('Y') }} Gestion Paiement - Système de gestion des paiements de parrainage
+                            &copy; {{ date('Y') }} GP - Club GI 2026. Tous droits réservés.
                         </p>
                     </div>
                 </div>
