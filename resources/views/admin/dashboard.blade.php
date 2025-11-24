@@ -10,61 +10,37 @@
 
     <!-- Cartes de statistiques -->
     <div class="row mb-4">
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-4 mb-4">
             <div class="card stat-card bg-primary text-white">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title">Total Général</h5>
-                            <p class="card-text h4 mb-0">{{ number_format($totalPaiements, 0, ',', ' ') }} FCFA</p>
-                        </div>
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-bar"></i>
+                            <h5 class="">Total Général</h5>
+                            <p class="card-text  mb-0">{{ number_format($totalPaiements, 0, ',', ' ') }} FCFA</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-4  mb-4">
             <div class="card stat-card bg-success text-white">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title">Aujourd'hui</h5>
-                            <p class="card-text h4 mb-0">{{ number_format($paiementsJournaliers, 0, ',', ' ') }} FCFA</p>
-                        </div>
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-day"></i>
+                            <h5 class="">Aujourd'hui</h5>
+                            <p class="card-text  mb-0">{{ number_format($paiementsJournaliers, 0, ',', ' ') }} FCFA</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-4  mb-4">
             <div class="card stat-card bg-info text-white">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title">Cette semaine</h5>
-                            <p class="card-text h4 mb-0">{{ number_format($paiementsHebdomadaires, 0, ',', ' ') }} FCFA</p>
-                        </div>
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-week"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stat-card bg-warning text-white">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <h5 class="card-title">Ce mois</h5>
-                            <p class="card-text h4 mb-0">{{ number_format($paiementsMensuels, 0, ',', ' ') }} FCFA</p>
-                        </div>
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-alt"></i>
+                            <h5 class="">Cette semaine</h5>
+                            <p class="card-text  mb-0">{{ number_format($paiementsHebdomadaires, 0, ',', ' ') }} FCFA</p>
                         </div>
                     </div>
                 </div>
@@ -80,7 +56,7 @@
                     <h5 class="mb-0"><i class="fas fa-door-open me-2"></i>Gestion des salles</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.creer-salle') }}" method="POST" class="mb-4">
+                    {{-- <form action="{{ route('admin.creer-salle') }}" method="POST" class="mb-4">
                         @csrf
                         <div class="input-group">
                             <input type="text" name="nom" class="form-control" placeholder="Nom de la nouvelle salle" required>
@@ -88,7 +64,7 @@
                                 <i class="fas fa-plus me-1"></i>Créer
                             </button>
                         </div>
-                    </form>
+                    </form> --}}
 
                     <h6 class="border-bottom pb-2 mb-3">Salles existantes</h6>
                     <div class="salles-list">
@@ -96,11 +72,11 @@
                             <div class="salle-item d-flex justify-content-between align-items-center p-2 border rounded mb-2">
                                 <div>
                                     <strong>{{ $salle->nom }} - @foreach ($salle->delegues as $delegue) {{ $delegue->name }} @if (!$loop->last), @endif @endforeach</strong>
-                                    <small class="text-muted d-block">{{ $salle->paiements_count }} paiements validés</small>
-                                    <small class="text-muted d-block">{{ $salle->paiements->sum('montant') }} FCFA</small>
+                                    <small class="text-muted d-block">{{ $salle->paiements_count }}/{{ $salle->paiements->count() }} paiements validés </small>
+                                    <small class="text-muted d-block">{{ $salle->paiements->where('status', 'valide')->sum('montant') }} FCFA / {{ $salle->paiements->sum('montant') }} FCFA</small>
                                 </div>
-                                <button type="button" class="btn btn-sm btn-primary" data-salle-id="{{ $salle->id }}" data-toggle="modal" data-target="#editSalleModal"><i class="fas fa-edit me-1"></i>Modifier</button>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer cette salle ?')) { window.location='{{ route('admin.supprimer-salle', $salle->id) }}'; }"><i class="fas fa-trash me-1"></i>Supprimer</button>
+                                {{-- <button type="button" class="btn btn-sm btn-primary" data-salle-id="{{ $salle->id }}" data-toggle="modal" data-target="#editSalleModal"><i class="fas fa-edit me-1"></i>Modifier</button> --}}
+                                {{-- <button type="button" class="btn btn-sm btn-danger" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer cette salle ?')) { window.location='{{ route('admin.supprimer-salle', $salle->id) }}'; }"><i class="fas fa-trash me-1"></i>Supprimer</button> --}}
                                 <a href="{{ route('admin.liste-paiements-salle', $salle->id) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-list me-1"></i>Voir
                                 </a>
@@ -118,7 +94,7 @@
                     <h5 class="mb-0"><i class="fas fa-user-graduate me-2"></i>Nommer un délégué</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.nommer-delegue') }}" method="POST" id="delegueForm">
+                    {{-- <form action="{{ route('admin.nommer-delegue') }}" method="POST" id="delegueForm">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label fw-bold">Rechercher un étudiant</label>
@@ -146,7 +122,7 @@
                         <button type="submit" class="btn btn-success w-100">
                             <i class="fas fa-user-check me-1"></i>Nommer délégué
                         </button>
-                    </form>
+                    </form> --}}
                     <div class="my-4 overflow-scroll ">
                         <h1>Liste des delegues</h1>
                         <table style="width:100">
@@ -154,7 +130,7 @@
                                 <tr>
                                     <th style="width: 50%">Nom</th>
                                     <th style="width: 25%">Salle</th>
-                                    <th style="width: 25%">Action</th>
+                                    {{-- <th style="width: 25%">Action</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -162,9 +138,9 @@
                                     <tr>
                                         <td>{{ $delegue->name }}</td>
                                         <td>{{ $delegue->salle->nom }} </td>
-                                        <td>
+                                        {{-- <td>
                                             <button class="btn btn-danger" onclick="removeDelegue({{ $delegue->id }})">Enlever delegue</button>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -201,23 +177,24 @@
                         @foreach($salles as $salle)
                         <div class="col-xl-3 col-md-4 col-sm-6 mb-3">
                             <div class="card salle-stat-card">
-                                <div class="card-body text-center">
-                                    <h6 class="card-title">{{ $salle->nom }}</h6>
-                                    <div class="salle-stat">
-                                        <span class="stat-number">{{ $salle->paiements_count }}</span>
-                                        <small class="text-muted d-block">paiements</small>
-                                    </div>
+                                <div class="card-body text-center ">
+                                    <h6 class="">{{ $salle->nom }}</h6>
+
                                     @php
                                         $montantSalle = \App\Models\Paiement::where('salle_id', $salle->id)
                                             ->where('status', 'valide')
                                             ->sum('montant');
                                     @endphp
-                                    <div class="mt-2">
+                                    <div class="salle-stat d-flex justify-content-center align-items-center">
+                                        <div class="d-flex justify-content-center align-items-center me-3 mr-4">
+                                            <span class="">{{ $salle->paiements_count }}</span>
+                                            <small class="text-muted d-block">paiements</small>
+                                        </div>
                                         <strong class="text-success">{{ number_format($montantSalle, 0, ',', ' ') }} FCFA</strong>
+                                        <a href="{{ route('admin.liste-paiements-salle', $salle->id) }}" class="btn btn-sm btn-outline-primary ml-20">
+                                            <i class="fas fa-eye me-1"></i>Voir
+                                        </a>
                                     </div>
-                                    <a href="{{ route('admin.liste-paiements-salle', $salle->id) }}" class="btn btn-sm btn-outline-primary mt-2">
-                                        <i class="fas fa-download me-1"></i>Liste
-                                    </a>
                                 </div>
                             </div>
                         </div>
