@@ -12,14 +12,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Administrateur',
+            'name' => 'admin-clubgi',
             'email' => 'admin123@gmail.com',
             'password' => Hash::make('passadmin123'),
             'role' => 'admin'
         ]);
 
         User::create([
-            'name' => 'clubgi',
+            'name' => 'admin2-clubgi',
             'email' => 'iutclubgi@gmail.com',
             'password' => Hash::make('club-GI#2025'),
             'role' => 'admin'
