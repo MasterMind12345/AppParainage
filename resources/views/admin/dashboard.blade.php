@@ -56,7 +56,7 @@
                     <h5 class="mb-0"><i class="fas fa-door-open me-2"></i>Gestion des salles</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.creer-salle') }}" method="POST" class="mb-4">
+                    {{-- <form action="{{ route('admin.creer-salle') }}" method="POST" class="mb-4">
                         @csrf
                         <div class="input-group">
                             <input type="text" name="nom" class="form-control" placeholder="Nom de la nouvelle salle" required>
@@ -64,7 +64,7 @@
                                 <i class="fas fa-plus me-1"></i>Créer
                             </button>
                         </div>
-                    </form>
+                    </form> --}}
 
                     <h6 class="border-bottom pb-2 mb-3">Salles existantes</h6>
                     <div class="salles-list">
@@ -94,7 +94,7 @@
                     <h5 class="mb-0"><i class="fas fa-user-graduate me-2"></i>Nommer un délégué</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.nommer-delegue') }}" method="POST" id="delegueForm">
+                    {{-- <form action="{{ route('admin.nommer-delegue') }}" method="POST" id="delegueForm">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label fw-bold">Rechercher un étudiant</label>
@@ -122,7 +122,7 @@
                         <button type="submit" class="btn btn-success w-100">
                             <i class="fas fa-user-check me-1"></i>Nommer délégué
                         </button>
-                    </form>
+                    </form> --}}
                     <div class="my-4 overflow-scroll ">
                         <h1>Liste des delegues</h1>
                         <table style="width:100">
