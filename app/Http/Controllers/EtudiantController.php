@@ -85,7 +85,7 @@ class EtudiantController extends Controller
         $logoBase64 = null;
         $qrBase64 = null;
 
-        $logoPath = storage_path('app/public/logo.png');
+        $logoPath = public_path('logo.png');
         if (file_exists($logoPath)) {
             $logoData = file_get_contents($logoPath);
             $logoMime = mime_content_type($logoPath);
