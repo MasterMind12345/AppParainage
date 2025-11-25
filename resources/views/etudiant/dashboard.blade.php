@@ -406,6 +406,10 @@
                 </div>
             </div>
         </div>
+
+        <div class="">
+            <p>Pour toute reclamation, veuillez nous contacter au numero suivant: <a href="https://wa.me/237671208615" target="_blank">+237 671208615</a></p>
+        </div>
     </div>
 </div>
 
